@@ -39,10 +39,14 @@ class VOC2012Manager():
         }
         self.width, self.height, self.channels = input_shape
 
-    def load_data(self, VOC2012_path: str, width_height: tuple):
+    def load_data(self, VOC2012_path: str, width_height: tuple,
+                  last_data_idx=-1):
         jpeg_path = VOC2012_path + "VOC2012/JPEGImages/"
         segmentation_path = VOC2012_path + "VOC2012/SegmentationClass/"
         annotations_path = glob(segmentation_path + "*")
+        random.shuffle(annotations_path)
+        annotations_path = annotations_path[:last_data_idx]
+
         filenames_png = []
         original_shapes = []
 
@@ -154,9 +158,11 @@ class VOC2012Manager():
         return images, tf.convert_to_tensor(gt_annotations, dtype=tf.int8)
 
     def load_and_prepare_data(self, VOC2012_path: str, width_height: tuple,
-                              n_classes=21, n_samples_to_show=0, seed=42):
+                              n_classes=21, n_samples_to_show=0, seed=42,
+                              last_data_idx=-1):
         images, annotations, filenames_png, original_shapes = \
-            self.load_data(VOC2012_path, width_height)
+            self.load_data(VOC2012_path, width_height,
+                           last_data_idx=last_data_idx)
         images_normalized, gt_annotations = \
             self.prepare_data(images, annotations, n_classes)
         print("Images shape: {}, annotations shape: {}".format(
