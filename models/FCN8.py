@@ -13,7 +13,7 @@ from tensorflow.keras.layers import Conv2D, MaxPool2D, Dense, Flatten, Input
 
 class FCN8(tf.keras.Model):
 
-    def __init__(self, tracker_ssd_path, VOC2012_pat, ssd_weights_path,
+    def __init__(self, tracker_ssd_path, ssd_weights_path,
                  n_classes=21, floatType=32, input_shape=(300, 300, 3)):
         super(FCN8, self).__init__()
 
