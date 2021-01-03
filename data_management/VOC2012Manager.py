@@ -173,7 +173,7 @@ class VOC2012Manager():
         nb_train_samples = int(train_ratio * dataset_size)
 
         full_dataset = tf.data.Dataset.from_tensor_slices(
-            (images, gt_annotations)).shuffle(1024)
+            (images, annotations)).shuffle(1024)
         train_dataset = full_dataset.take(
             nb_train_samples).batch(batch_size).prefetch(-1)
         val_dataset = full_dataset.skip(nb_train_samples)
