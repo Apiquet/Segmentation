@@ -20,6 +20,7 @@ class FCN8(tf.keras.Model):
         if floatType == 32:
             self.floatType = tf.float32
         elif floatType == 16:
+            tf.keras.backend.set_floatx('float16')
             self.floatType = tf.float16
         else:
             raise Exception('floatType should be either 32 or 16')
@@ -28,8 +29,8 @@ class FCN8(tf.keras.Model):
         from models.SSD300 import SSD300
 
         self.n_classes = n_classes
-        SSD300_model = SSD300(n_classes)
-        confs, locs = SSD300_model(tf.zeros([32, 300, 300, 3], tf.float32))
+        SSD300_model = SSD300(n_classes, floatType)
+        confs, locs = SSD300_model(tf.zeros([32, 300, 300, 3], self.floatType))
         SSD300_model.load_weights(ssd_weights_path)
         SSD_backbone = SSD300_model.getVGG16()
 

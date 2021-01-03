@@ -24,6 +24,7 @@ class VOC2012Manager():
         if floatType == 32:
             self.floatType = tf.float32
         elif floatType == 16:
+            tf.keras.backend.set_floatx('float16')
             self.floatType = tf.float16
         else:
             raise Exception('floatType should be either 32 or 16')
@@ -56,7 +57,7 @@ class VOC2012Manager():
             image = np.array(image)
             image = cv2.resize(image, width_height,
                                interpolation=cv2.INTER_NEAREST)
-            images.append(tf.convert_to_tensor(image, dtype=tf.float32))
+            images.append(tf.convert_to_tensor(image, dtype=self.floatType))
 
         print("\nLoading annotations...")
         annotations = []
@@ -71,7 +72,7 @@ class VOC2012Manager():
                     tf.convert_to_tensor(annotation, dtype=tf.int8), 2))
 
         print("\nConvert to tensor...")
-        images = tf.convert_to_tensor(images, dtype=tf.float32)
+        images = tf.convert_to_tensor(images, dtype=self.floatType)
         annotations = tf.convert_to_tensor(annotations, dtype=tf.int8)
         print("\nDone")
         print("Images shape: {}, annotations shape: {}".format(
