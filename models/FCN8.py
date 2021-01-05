@@ -29,7 +29,7 @@ class FCN8(tf.keras.Model):
         from models.SSD300 import SSD300
 
         self.n_classes = n_classes
-        SSD300_model = SSD300(n_classes, floatType)
+        SSD300_model = SSD300(21, floatType)
         confs, locs = SSD300_model(tf.zeros([32, 300, 300, 3], self.floatType))
         SSD300_model.load_weights(ssd_weights_path)
         SSD_backbone = SSD300_model.getVGG16()
