@@ -169,6 +169,7 @@ class VOC2012Manager():
     def load_and_prepare_data(self, VOC2012_path: str, width_height: tuple,
                               n_classes=21, n_samples_to_show=0, seed=42,
                               targets=None, last_data_idx=-1):
+        targets_id = None
         if targets is not None:
             targets_id = []
             n_classes = len(targets) + 1
