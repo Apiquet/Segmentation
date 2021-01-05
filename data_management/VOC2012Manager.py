@@ -40,7 +40,7 @@ class VOC2012Manager():
         self.width, self.height, self.channels = input_shape
 
     def load_data(self, VOC2012_path: str, width_height: tuple,
-                  last_data_idx=-1):
+                  targets=None, last_data_idx=-1):
         jpeg_path = VOC2012_path + "VOC2012/JPEGImages/"
         segmentation_path = VOC2012_path + "VOC2012/SegmentationClass/"
         annotations_path = glob(segmentation_path + "*")
@@ -50,9 +50,30 @@ class VOC2012Manager():
         filenames_png = []
         original_shapes = []
 
-        print("\nLoading images...")
+        print("\nLoading images and annotations...")
+        annotations = []
         images = []
         for el in tqdm(annotations_path, position=0, leave=True):
+            annotation = Image.open(el)
+            annotation = np.array(annotation)
+
+            if targets is not None:
+                idx_to_keep = np.zeros_like(annotation)
+                for i, target in enumerate(targets):
+                    idx_to_keep = np.logical_or(idx_to_keep,
+                                                annotation == target)
+                    annotation[annotation == target] = i + 1
+                annotation[np.invert(idx_to_keep)] = 0
+                if np.sum(idx_to_keep) == 0:
+                    continue
+
+            annotation[annotation > 20] = 0
+            annotation = cv2.resize(annotation, width_height,
+                                    interpolation=cv2.INTER_NEAREST)
+            annotations.append(
+                tf.expand_dims(
+                    tf.convert_to_tensor(annotation, dtype=tf.int16), 2))
+
             filename = os.path.basename(el)
             filenames_png.append(filename)
             el = jpeg_path + filename.replace(".png", ".jpg")
@@ -63,21 +84,9 @@ class VOC2012Manager():
                                interpolation=cv2.INTER_NEAREST)
             images.append(tf.convert_to_tensor(image, dtype=self.floatType))
 
-        print("\nLoading annotations...")
-        annotations = []
-        for el in tqdm(annotations_path, position=0, leave=True):
-            annotation = Image.open(el)
-            annotation = np.array(annotation)
-            annotation[annotation > 20] = 0
-            annotation = cv2.resize(annotation, width_height,
-                                    interpolation=cv2.INTER_NEAREST)
-            annotations.append(
-                tf.expand_dims(
-                    tf.convert_to_tensor(annotation, dtype=tf.int8), 2))
-
         print("\nConvert to tensor...")
         images = tf.convert_to_tensor(images, dtype=self.floatType)
-        annotations = tf.convert_to_tensor(annotations, dtype=tf.int8)
+        annotations = tf.convert_to_tensor(annotations, dtype=tf.int16)
         print("\nDone")
         print("Images shape: {}, annotations shape: {}".format(
             images.shape, annotations.shape))
@@ -150,18 +159,25 @@ class VOC2012Manager():
             # Reshape segmentation masks
             for i in range(n_classes):
                 mask = tf.equal(annotation[:, :, 0],
-                                tf.constant(i, dtype=tf.int8))
+                                tf.constant(i, dtype=tf.int16))
                 stack_list.append(tf.cast(mask, dtype=tf.int16))
 
             gt = tf.stack(stack_list, axis=2)
             gt_annotations.append(gt)
-        return images, tf.convert_to_tensor(gt_annotations, dtype=tf.int8)
+        return images, tf.convert_to_tensor(gt_annotations, dtype=tf.int16)
 
     def load_and_prepare_data(self, VOC2012_path: str, width_height: tuple,
                               n_classes=21, n_samples_to_show=0, seed=42,
-                              last_data_idx=-1):
+                              targets=None, last_data_idx=-1):
+        if targets is not None:
+            targets_id = []
+            n_classes = len(targets) + 1
+            for key, value in self.labels_to_name.items():
+                if value in targets:
+                    targets_id.append(key)
+
         images, annotations, filenames_png, original_shapes = \
-            self.load_data(VOC2012_path, width_height,
+            self.load_data(VOC2012_path, width_height, targets=targets_id,
                            last_data_idx=last_data_idx)
         images_normalized, gt_annotations = \
             self.prepare_data(images, annotations, n_classes)
@@ -182,6 +198,7 @@ class VOC2012Manager():
         full_dataset = tf.data.Dataset.from_tensor_slices(
             (images, annotations)).shuffle(1024)
         train_dataset = full_dataset.take(
-            nb_train_samples).batch(batch_size).prefetch(-1)
-        val_dataset = full_dataset.skip(nb_train_samples)
+            nb_train_samples).batch(batch_size).prefetch(-1).repeat()
+        val_dataset = full_dataset.skip(
+            nb_train_samples).batch(batch_size).repeat()
         return train_dataset, val_dataset
