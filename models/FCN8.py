@@ -13,7 +13,7 @@ from tensorflow.keras.layers import Conv2D, MaxPool2D, Dense, Flatten, Input
 
 class FCN8(tf.keras.Model):
 
-    def __init__(self, tracker_ssd_path, ssd_weights_path,
+    def __init__(self, tracker_ssd_path, ssd_weights_path=None,
                  n_classes=21, floatType=32, input_shape=(300, 300, 3)):
         super(FCN8, self).__init__()
 
@@ -31,7 +31,8 @@ class FCN8(tf.keras.Model):
         self.n_classes = n_classes
         SSD300_model = SSD300(21, floatType)
         confs, locs = SSD300_model(tf.zeros([32, 300, 300, 3], self.floatType))
-        SSD300_model.load_weights(ssd_weights_path)
+        if ssd_weights_path is not None:
+            SSD300_model.load_weights(ssd_weights_path)
         SSD_backbone = SSD300_model.getVGG16()
 
         from models.VGG16 import VGG16
@@ -70,11 +71,6 @@ class FCN8(tf.keras.Model):
                                            strides=(2, 2),
                                            padding='same')(self.x)
 
-        self.x = tf.keras.layers.Conv2D(4096, (7, 7), activation='relu',
-                                        padding='same')(self.x)
-        self.x = tf.keras.layers.Conv2D(4096, (1, 1), activation='relu',
-                                        padding='same')(self.x)
-
         self.x = tf.keras.layers.Conv2DTranspose(
             n_classes, kernel_size=(4, 4),
             strides=(2, 2), use_bias=False)(self.x)
@@ -87,9 +83,9 @@ class FCN8(tf.keras.Model):
 
         self.x = tf.keras.layers.Add()([self.x, self.out_stage_4_resized])
 
-        self.x = (tf.keras.layers.Conv2DTranspose(
+        self.x = tf.keras.layers.Conv2DTranspose(
             n_classes, kernel_size=(4, 4), strides=(2, 2),
-            use_bias=False))(self.x)
+            use_bias=False)(self.x)
         self.x = tf.keras.layers.Cropping2D(cropping=(1, 1))(self.x)
 
         self.out_stage_3_resized = tf.keras.layers.Conv2D(
