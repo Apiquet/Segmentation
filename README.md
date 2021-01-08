@@ -14,7 +14,7 @@ The following illustration shows an overview of the architecture implemented:
 
 * The UNET architecture: [paper](https://arxiv.org/pdf/1505.04597.pdf)
 
-![U-Net](imgs/transfer_learning_from_ssd.png)
+![U-Net](imgs/unet.png)
 
 
 Some results with the first architecture:
