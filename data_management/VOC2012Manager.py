@@ -153,7 +153,7 @@ class VOC2012Manager():
         images = images / 255.
 
         gt_annotations = []
-        print("Reshape gt from (300, 300, 1) to (300, 300, n_classes)")
+        print("Reshape gt from (width,height,1) to (width,height,n_classes)")
         for n, annotation in enumerate(tqdm(annotations)):
             stack_list = []
             # Reshape segmentation masks
