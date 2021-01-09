@@ -8,7 +8,6 @@ FCN8 with VGG16 feature extractor
 import numpy as np
 import sys
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, MaxPool2D, Dense, Flatten, Input
 
 
 class FCN8(tf.keras.Model):

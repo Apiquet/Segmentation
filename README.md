@@ -2,7 +2,7 @@
 
 The full project is explained [here](https://apiquet.com/2021/01/03/segmentation-model-implementation/)
 
-In a few words, in this repository is implemented two architectures:
+In this repository is implemented two architectures:
 
 * VGG-16 + FCN-8 module. We use pre-trained weights from SSD300 implemented [here](https://github.com/Apiquet/Tracking_SSD_ReID)
 Although the SSD300 is designed for object detection, its feature extractor can be reused in another task involving similar classes.
