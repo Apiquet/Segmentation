@@ -59,7 +59,7 @@ class UNET(tf.keras.Model):
                 n_filters, (3, 3), activation='relu', padding='same')(self.x)
 
         self.outputs = tf.keras.layers.Conv2D(
-            n_classes, (3, 3), activation='softmax', padding='same')(self.x)
+            n_classes, (1, 1), activation='softmax', padding='same')(self.x)
         self.model = tf.keras.Model(inputs=self.inputs, outputs=self.outputs)
 
     def call(self, x):
