@@ -14,7 +14,7 @@ The following illustration shows an overview of the architecture implemented:
 
 * The UNET architecture: [paper](https://arxiv.org/pdf/1505.04597.pdf)
 
-![U-Net](imgs/unet.png)
+![U-Net](imgs/unet_explained.png)
 
 
 Some results with the first architecture:
