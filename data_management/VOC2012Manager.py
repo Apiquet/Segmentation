@@ -39,7 +39,7 @@ class VOC2012Manager():
         }
         self.width, self.height, self.channels = input_shape
 
-    def load_data(self, VOC2012_path: str, width_height: tuple,
+    def load_data(self, VOC2012_path: str,
                   targets=None, last_data_idx=-1):
         jpeg_path = VOC2012_path + "VOC2012/JPEGImages/"
         segmentation_path = VOC2012_path + "VOC2012/SegmentationClass/"
@@ -68,7 +68,7 @@ class VOC2012Manager():
                     continue
 
             annotation[annotation > 20] = 0
-            annotation = cv2.resize(annotation, width_height,
+            annotation = cv2.resize(annotation, (self.width, self.height),
                                     interpolation=cv2.INTER_NEAREST)
             annotations.append(
                 tf.expand_dims(
@@ -80,7 +80,7 @@ class VOC2012Manager():
             image = Image.open(el)
             original_shapes.append(image.size)
             image = np.array(image)
-            image = cv2.resize(image, width_height,
+            image = cv2.resize(image, (self.width, self.height),
                                interpolation=cv2.INTER_NEAREST)
             images.append(tf.convert_to_tensor(image, dtype=self.floatType))
 
@@ -166,7 +166,7 @@ class VOC2012Manager():
             gt_annotations.append(gt)
         return images, tf.convert_to_tensor(gt_annotations, dtype=tf.int16)
 
-    def load_and_prepare_data(self, VOC2012_path: str, width_height: tuple,
+    def load_and_prepare_data(self, VOC2012_path: str,
                               n_classes=21, n_samples_to_show=0, seed=42,
                               targets=None, last_data_idx=-1):
         targets_id = None
@@ -178,7 +178,7 @@ class VOC2012Manager():
                     targets_id.append(key)
 
         images, annotations, filenames_png, original_shapes = \
-            self.load_data(VOC2012_path, width_height, targets=targets_id,
+            self.load_data(VOC2012_path, targets=targets_id,
                            last_data_idx=last_data_idx)
         images_normalized, gt_annotations = \
             self.prepare_data(images, annotations, n_classes)
