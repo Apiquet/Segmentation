@@ -17,10 +17,15 @@ The following illustration shows an overview of the architecture implemented:
 ![U-Net](imgs/unet_explained.png)
 
 
-Some results with the first architecture:
+Some FCN-8 results:
 
 ![Person dog](imgs/person_dog_segmentation.gif)
 
 ![Person then dog](imgs/person_then_dog_segmentation.gif)
 
 ![Dog](imgs/dog_segmentation.gif)
+
+U-Net results:
+
+![Dog-UNet](imgs/dog_unet_segmentation.gif)
+
