@@ -10,11 +10,11 @@ import sys
 import tensorflow as tf
 
 
-class FCN2(tf.keras.Model):
+class FCN4(tf.keras.Model):
 
     def __init__(self, tracker_ssd_path, ssd_weights_path=None,
                  n_classes=21, floatType=32, input_shape=(300, 300, 3)):
-        super(FCN2, self).__init__()
+        super(FCN4, self).__init__()
 
         if floatType == 32:
             self.floatType = tf.float32
@@ -114,23 +114,11 @@ class FCN2(tf.keras.Model):
 
         self.x = tf.keras.layers.Add()([self.x, self.out_stage_2_resized])
 
-        # FCN-2
-        self.x = tf.keras.layers.Conv2DTranspose(
-            n_classes, kernel_size=(4, 4), strides=(2, 2),
-            use_bias=False)(self.x)
-        self.x = tf.keras.layers.Cropping2D(cropping=(1, 1))(self.x)
-
-        self.out_stage_1_resized = tf.keras.layers.Conv2D(
-            n_classes, (1, 1), activation='relu',
-            padding='same')(self.out_stage_1)
-
-        self.x = tf.keras.layers.Add()([self.x, self.out_stage_1_resized])
-
         # Resize to output
         self.x = tf.keras.layers.Conv2DTranspose(
-            n_classes, kernel_size=(4, 4), strides=(2, 2),
+            n_classes, kernel_size=(8, 8), strides=(4, 4),
             use_bias=False)(self.x)
-        self.x = tf.keras.layers.Cropping2D(cropping=(1, 1))(self.x)
+        self.x = tf.keras.layers.Cropping2D(cropping=(2, 2))(self.x)
 
         self.outputs = tf.keras.layers.Activation('softmax')(self.x)
 
