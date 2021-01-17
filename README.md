@@ -8,22 +8,32 @@ In this repository is implemented two architectures:
 Although the SSD300 is designed for object detection, its feature extractor can be reused in another task involving similar classes.
 The related article at the top of this readme explains the implementation and compares training with and without learning transfer.
 
-The following illustration shows an overview of the architecture implemented:
+The following illustration shows an overview of the architectures implemented: FCN-8, FCN-4 and U-Net:
 
-![Transfer learning from SSD300](imgs/transfer_learning_from_ssd.png)
+![Transfer learning from SSD300](imgs/fcn8.png)
+
+![Transfer learning from SSD300](imgs/fc4.png)
 
 * The UNET architecture: [paper](https://arxiv.org/pdf/1505.04597.pdf)
 
-![U-Net](imgs/unet_explained.png)
-
+![U-Net](imgs/unet.png)
 
 Some FCN-8 results:
 
-![Person dog](imgs/person_dog_segmentation.gif)
+![Person dog](imgs/fcn8_example1.gif)
 
-![Person then dog](imgs/person_then_dog_segmentation.gif)
+![Person then dog](imgs/fcn8_example2.gif)
 
-![Dog](imgs/dog_segmentation.gif)
+![Dog](imgs/fcn8_example3.gif)
+
+
+Some FCN-4 results:
+
+![Person dog](imgs/fcn4_example1.gif)
+
+![Person then dog](imgs/fcn4_example2.gif)
+
+![Dog](imgs/fcn4_example3.gif)
 
 U-Net results:
 
