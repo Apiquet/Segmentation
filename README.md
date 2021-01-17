@@ -10,9 +10,9 @@ The related article at the top of this readme explains the implementation and co
 
 The following illustration shows an overview of the architectures implemented: FCN-8, FCN-4 and U-Net:
 
-![Transfer learning from SSD300](imgs/fcn8.png)
+![FCN8](imgs/fcn8.png)
 
-![Transfer learning from SSD300](imgs/fc4.png)
+![FCN4](imgs/fcn4.png)
 
 * The UNET architecture: [paper](https://arxiv.org/pdf/1505.04597.pdf)
 
@@ -37,5 +37,5 @@ Some FCN-4 results:
 
 U-Net results:
 
-![Dog-UNet](imgs/dog_unet_segmentation.gif)
+![Dog-UNet](imgs/unet_example1.gif)
 
