@@ -14,6 +14,13 @@ class FCN8(tf.keras.Model):
 
     def __init__(self, tracker_ssd_path, ssd_weights_path=None,
                  n_classes=21, floatType=32, input_shape=(300, 300, 3)):
+        """
+        Args:
+            - (str) tracker_ssd_path: path to github/Apiquet/Tracking_SSD_ReID
+            - (str) ssd_weights_path: got from Tracking_SSD_ReID/training.ipynb
+            - (int) n_classes: number of target classes
+            - (int) floatType: if wanted to se float32 or 16
+        """
         super(FCN8, self).__init__()
 
         if floatType == 32:
