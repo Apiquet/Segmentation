@@ -35,3 +35,6 @@ It also describes how to parse raw data to train segmentation models.
 
 ![Dog-UNet](imgs/unet_example1.gif)
 
+## Usage
+
+The notebook infer_on_videos.ipynb shows how to infer a segmentation model from the repository on a single image or on a video.
