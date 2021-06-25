@@ -37,4 +37,5 @@ It also describes how to parse raw data to train segmentation models.
 
 ## Usage
 
+The notebook FCN4_training.ipynb allows to train a VGG-16 + FCN-4 model.
 The notebook infer_on_videos.ipynb shows how to infer the segmentation model VGG-16 + FCN-4 on a single image or on a video.
