@@ -37,5 +37,5 @@ It also describes how to parse raw data to train segmentation models.
 
 ## Usage
 
-The notebook UNET/FCN4/8_training.ipynb allows to train a UNET / VGG-16 + FCN-4 / VGG-16 + FCN8 models.
+The notebook UNET/FCN4/8_training.ipynb shows how to train a UNET / VGG-16 + FCN-4 / VGG-16 + FCN8 models.
 The notebook infer_on_videos.ipynb shows how to infer the segmentation model VGG-16 + FCN-4 on a single image or on a video.
