@@ -4,9 +4,9 @@ The full project is explained [here](https://apiquet.com/2021/01/03/segmentation
 
 In this repository is implemented three architectures: VGG-16 + FCN-8 module, VGG-16 + FCN-4 module and U-Net.
 
-The two models with VGG-16 as base network use pre-trained weights from SSD300 model implemented [here](https://github.com/Apiquet/Tracking_SSD_ReID).
+The two models with VGG-16 use pre-trained weights from SSD300 model implemented [here](https://github.com/Apiquet/Tracking_SSD_ReID).
 Although the SSD300 is designed for object detection, its feature extractor can be reused in another task involving similar classes.
-The related article at the top of this readme explains the implementations and compares training with and without transfer learning.
+The related article (link at the top of this readme) explains the implementation and compares training with and without transfer learning.
 It also describes how to parse raw data to train segmentation models.
 
 * FCN-8 architecture and some results:
