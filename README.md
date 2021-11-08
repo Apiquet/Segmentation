@@ -1,6 +1,6 @@
 # Image segmentation project
 
-The full project is explained [here](https://apiquet.com/2021/01/03/segmentation-model-implementation/)
+The project is explained [here](https://apiquet.com/2021/01/03/segmentation-model-implementation/)
 
 In this repository is implemented three architectures: VGG-16 + FCN-8 module, VGG-16 + FCN-4 module and U-Net.
 
