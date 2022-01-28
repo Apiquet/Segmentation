@@ -9,7 +9,7 @@ Although the SSD300 is designed for object detection, its feature extractor can 
 The related article (link at the top of this readme) explains the implementation and compares training with and without transfer learning.
 It also describes how to parse raw data to train segmentation models.
 
-* FCN-8 architecture and some results:
+* FCN-8 architecture and some visualizations:
 
 ![FCN8](imgs/fcn8.png)
 
@@ -19,7 +19,7 @@ It also describes how to parse raw data to train segmentation models.
 
 ![Dog](imgs/fcn8_example3.gif)
 
-* FCN-4 architecture and some results:
+* FCN-4 architecture and some visualizations:
 
 ![FCN4](imgs/fcn4.png)
 
@@ -29,7 +29,7 @@ It also describes how to parse raw data to train segmentation models.
 
 ![Dog](imgs/fcn4_example3.gif)
 
-* U-NET architecture and some results: [paper](https://arxiv.org/pdf/1505.04597.pdf)
+* U-NET architecture and a visualization: [paper](https://arxiv.org/pdf/1505.04597.pdf)
 
 ![U-Net](imgs/unet.png)
 
